@@ -12,19 +12,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 class ViewActivity: ComponentActivity(){
-    private val viewModel by viewModels<MainViewModel> (  )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent{
+            val viewModel = viewModel<MainViewModel>()
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -35,7 +37,7 @@ class ViewActivity: ComponentActivity(){
                     fontSize = 30.sp
                 )
                 Button(onClick = {
-                    viewModel.data.value = "World"
+                    viewModel.changeValue()
                 }) {
                     Text("변경")
                 }
@@ -46,9 +48,13 @@ class ViewActivity: ComponentActivity(){
 }
 // remember 없이도 mutableStateOf 되는 이유: 액티비티하고 생명주기를 같이 가져감
 //이게 뭔소리냐
-class MainViewModel : ViewModel(){
-    val data = mutableStateOf("Hello")
 
+class MainViewModel : ViewModel(){
+    private val _data = mutableStateOf("Hello")
+    val data: State<String> = _data // 외부에서 수정 불가능
+    fun changeValue(){
+        _data.value = "World"
+    }
 }
 
 @Composable
