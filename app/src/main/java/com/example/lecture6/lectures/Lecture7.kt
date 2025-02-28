@@ -1,8 +1,5 @@
 package com.example.lecture6.lectures
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,37 +19,30 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
-class NaviActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            val navController = rememberNavController()
 
-            NavHost(
-                navController = navController,
-                startDestination = "first",
-            ) {
-                composable("first") {
-                    FirstScreen(navController)
-                }
-                composable("second") {
-                    SecondScreen(navController)
-                }
-                composable("third/{value}") { backStackEntry ->
-                    ThirdScreen(
-                        navController = navController,
-                        value = backStackEntry.arguments?.getString("value") ?: "",
-                        )
-                }
-                composable("view") {
-                    justScreen()
-                }
+@Composable
+fun Lec7Screen(){
+    val navController = rememberNavController()
 
-            }
+    NavHost(
+        navController = navController,
+        startDestination = "first",
+    ) {
+        composable("first") {
+            FirstScreen(navController)
         }
+        composable("second") {
+            SecondScreen(navController)
+        }
+        composable("third/{value}") { backStackEntry ->
+            ThirdScreen(
+                navController = navController,
+                value = backStackEntry.arguments?.getString("value") ?: "",
+            )
+        }
+
     }
 }
-
 
 @Composable
 fun FirstScreen(navController: NavController) {
@@ -79,9 +69,6 @@ fun FirstScreen(navController: NavController) {
             }
         }) {
             Text("세 번째!")
-        }
-        Button(onClick = {navController.navigate("view")}) {
-            Text("viewModel")
         }
     }
 }

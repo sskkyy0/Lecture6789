@@ -1,9 +1,6 @@
 package com.example.lecture6.lectures
 
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,30 +17,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 
-class ViewActivity: ComponentActivity(){
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent{
-            val viewModel = viewModel<MainViewModel>()
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    viewModel.data.value,
-                    fontSize = 30.sp
-                )
-                Button(onClick = {
-                    viewModel.changeValue()
-                }) {
-                    Text("변경")
-                }
-
-            }
+@Composable
+fun Lec8Screen(){
+    val viewModel = viewModel<MainViewModel>()
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            viewModel.data.value,
+            fontSize = 30.sp
+        )
+        Button(onClick = {
+            viewModel.changeValue()
+        }) {
+            Text("변경")
         }
+
     }
 }
+
 // remember 없이도 mutableStateOf 되는 이유: 액티비티하고 생명주기를 같이 가져감
 //이게 뭔소리냐
 
